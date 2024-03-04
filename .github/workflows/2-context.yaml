@@ -1,0 +1,36 @@
+name: Contexto e Variáveis
+on: [workflow_dispatch]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Imprimir contexto do GitHub
+      run: echo "${{ toJson(github) }}"
+
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Definir variáveis de step
+      id: vars
+      run: |
+        echo "::set-output name=my_var::some value"
+    - name: Usar variáveis de step
+      run: echo "${{ steps.vars.outputs.my_var }}"
+
+  job3:
+    runs-on: ubuntu-latest
+    needs: job2
+    steps:
+    - name: Usar outputs do job anterior
+      run: echo "O job anterior disse ${{needs.job2.outputs.my_var}}"
+
+  job4:
+    runs-on: ubuntu-latest
+    env:
+      VAR1: O valor da variável de ambiente
+    steps:
+    - name: Usar variável de ambiente
+      run: echo "VAR1 é $VAR1"
+    - name: Usar segredo
+      run: echo "O segredo é ${{ secrets.SECRET }}"
