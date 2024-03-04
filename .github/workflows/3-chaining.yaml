@@ -10,7 +10,7 @@ jobs:
       run: echo "This is Job 1"
 
   job2:
-    # needs: job1 - Descomente para fazer este job depender de job1
+    needs: job1 
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }} # Executa apenas se o push for na branch main
     steps:
@@ -18,7 +18,7 @@ jobs:
       run: echo "This is Job 2"
 
   job3:
-    # needs: job2 - Descomente para fazer este job depender de job2
+    needs: job2 
     runs-on: ubuntu-latest
     if: ${{ always() }} # Este job será executado independentemente do sucesso ou falha dos jobs anteriores
     steps:
@@ -26,7 +26,7 @@ jobs:
       run: echo "This is Job 3"
 
   job4:
-    # needs: job3 - Descomente para fazer este job depender de job3
+    needs: job3 
     runs-on: ubuntu-latest
     if: ${{ failure() }} # Este job será executado apenas se algum dos jobs anteriores falhar
     steps:
